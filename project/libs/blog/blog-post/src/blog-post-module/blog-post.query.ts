@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsArray, IsIn, IsMongoId, IsNumber, IsOptional, IsBoolean, IsString } from 'class-validator';
+import { IsArray, IsIn, IsMongoId, IsNumber, IsOptional, IsString } from 'class-validator';
 
 import { PostType, PostStatus } from '@prisma/client';
 import { SortType, SortDirection } from '@project/core';
