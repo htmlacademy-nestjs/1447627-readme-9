@@ -118,8 +118,10 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
       };
     }
 
-    if (query?.userId) {
-      where.userId = query.userId;
+    if (query?.userIds) {
+      where.userId = {
+        in: query?.userIds,
+      };
     }
 
     if (query?.status) {

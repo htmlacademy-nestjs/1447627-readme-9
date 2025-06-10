@@ -11,6 +11,7 @@ import { ChangePasswordDto } from '../dto/change-password.dto';
 import { LoggedUserRdo } from '../rdo/logged-user.rdo';
 import { UserRdo } from '../rdo/user.rdo';
 import { UserDetailsRdo } from '../rdo/user-details.rdo';
+import { UserSubscriptionsRdo } from '../rdo/user-subscriptions.rdo';
 import { TokenPairRdo } from '../rdo/token-pair.rdo';
 
 import { AuthenticationResponseMessage } from './authentication.constant';
@@ -104,6 +105,21 @@ export class AuthenticationController {
   public async show(@Param('id', MongoIdValidationPipe) id: string) {
     const existUser = await this.authService.getUser(id);
     return fillDto(UserDetailsRdo, existUser.toPOJO());
+  }
+
+  @ApiResponse({
+    type: UserDetailsRdo,
+    status: HttpStatus.OK,
+    description: AuthenticationResponseMessage.UserFound,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: AuthenticationResponseMessage.UserNotFound,
+  })
+  @Get(':id/subscriptions')
+  public async getSubscriptions(@Param('id', MongoIdValidationPipe) id: string) {
+    const existUser = await this.authService.getUser(id);
+    return fillDto(UserSubscriptionsRdo, existUser.toPOJO());
   }
 
   @ApiResponse({

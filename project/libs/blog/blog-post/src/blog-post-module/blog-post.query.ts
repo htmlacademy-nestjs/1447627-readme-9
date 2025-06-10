@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsArray, IsIn, IsMongoId, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsIn, IsMongoId, IsNumber, IsOptional, IsBoolean, IsString } from 'class-validator';
 
 import { PostType, PostStatus } from '@prisma/client';
 import { SortType, SortDirection } from '@project/core';
@@ -87,10 +87,12 @@ export class BlogPostQuery {
   public status?: PostStatus;
 
   @ApiProperty({
-    description: 'User ID',
+    description: 'User IDs',
     required: false,
   })
-  @IsMongoId()
+  @IsMongoId({ each: true })
+  @IsArray()
+  @Transform(({ value }) => (Array.isArray(value) ? value : [value]))
   @IsOptional()
-  public userId?: string;
+  public userIds?: string[];
 }
